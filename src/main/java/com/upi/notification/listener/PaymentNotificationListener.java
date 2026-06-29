@@ -17,6 +17,13 @@ public class PaymentNotificationListener {
     @SqsListener("${sqs.queue.payment-notifications}")
     public void onMessage(PaymentEvent event) {
         log.info("Received payment event from SQS: {}", event);
+
+        // Simulated failure triggering mechanism for testing retries & DLQ
+        if (event.getPayerVpa() != null && event.getPayerVpa().contains("fail")) {
+            log.warn("🚨 [SIMULATED FAILURE] Processing failed for VPA: {}. Retrying...", event.getPayerVpa());
+            throw new RuntimeException("Simulated SQS message processing failure");
+        }
+
         notificationDispatcher.dispatch(event);
     }
 }
