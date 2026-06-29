@@ -1,0 +1,16 @@
+server:
+  port: 3004
+
+spring:
+  cloud:
+    aws:
+      credentials:
+        access-key: ${AWS_ACCESS_KEY_ID:}
+        secret-key: ${AWS_SECRET_ACCESS_KEY:}
+      region:
+        static: ${AWS_REGION:us-east-1}
+
+sqs:
+  queue:
+    payment-notifications: ${SQS_QUEUE_PAYMENT_NOTIFICATIONS:payment-notifications-queue}
+    payment-notifications-dlq: ${SQS_QUEUE_PAYMENT_NOTIFICATIONS_DLQ:payment-notifications-dlq}
